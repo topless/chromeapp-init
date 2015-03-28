@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "Chrapp Init",
+    "description": "Chrapp Init"
+  },
+  "appDescription": {
+    "message": "Bootstrap chrome app",
+    "description": "Bootstrap chrome app"
+  }
+}
