@@ -2,11 +2,15 @@
   "name": "chrapp-init",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "~1"
+    "bootstrap": "~3",
+    "font-awesome": "~4"
   },
   "overrides": {
-    "angular": {
-      "main": ["angular.js"]
+    "bootstrap": {
+      "main": ["less/**", "js/*"]
+    },
+    "font-awesome": {
+      "main": ["less/*", "fonts/*"]
     }
   }
 }
