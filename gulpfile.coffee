@@ -11,23 +11,18 @@ paths =
   build_scripts: 'build/scripts'
   build_styles: 'build/styles'
   libs: [
-    'build/lib/jquery/dist/jquery.js'
-    'build/lib/bootstrap/js/transition.js'
-    'build/lib/bootstrap/js/collapse.js'
   ]
   scripts: [
     'build/scripts/app/app.js'
   ]
 
 
+gulp.task 'clean', -> del paths.build
+
 gulp.task 'bower', -> plugins.bower()
 
 
-gulp.task 'clean', ->
-  del paths.build
-
-
-gulp.task 'lib', ['bower'], ->
+gulp.task 'lib', ->
   gulp.src plugins.mainBowerFiles(), base: paths.bower
     .pipe gulp.dest 'build/lib'
 
@@ -50,6 +45,7 @@ gulp.task 'styles', ->
     .pipe plugins.livereload()
 
 
+# TODO: Merge streams
 gulp.task 'copy', ->
   gulp.src('src/_locales/**').pipe gulp.dest 'build/_locales'
   gulp.src(paths.images).pipe gulp.dest 'build/images'
@@ -73,14 +69,13 @@ gulp.task 'watch', ->
   gulp.watch ['src/**/*.html'], ['copy']
 
 
-gulp.task 'default', [
-  'build'
-]
+gulp.task 'default', ['build']
+
 
 gulp.task 'build',
   plugins.sequence(
-    'bower'
     'clean'
+    'bower'
     'lib'
     ['scripts', 'styles', 'copy']
     'inject'
