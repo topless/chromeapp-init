@@ -1,17 +1,18 @@
 gulp = require 'gulp'
 plugins = require('gulp-load-plugins')()
-plugins.mainBowerFiles = require 'main-bower-files'
 del = require 'del'
 
+BC = 'bower_components'
+
 paths =
-  bower: 'bower_components'
   styles: 'src/styles/style.less'
   images: 'src/images/*'
-  fonts: 'ext/font-awesome/fonts/*'
+  fonts: "#{BC}/font-awesome/fonts/*"
   build: 'build'
   build_scripts: 'build/scripts'
   build_styles: 'build/styles'
-  ext: [
+  bower_comp: [
+    "#{BC}/jquery/dist/jquery.js"
   ]
   scripts: [
     'build/scripts/app/app.js'
@@ -20,12 +21,14 @@ paths =
 
 gulp.task 'clean', -> del paths.build
 
+
 gulp.task 'bower', -> plugins.bower()
 
 
-gulp.task 'ext', ->
-  gulp.src plugins.mainBowerFiles(), base: paths.bower
-    .pipe gulp.dest 'ext'
+gulp.task 'libs', ->
+  gulp.src(paths.bower_comp)
+    .pipe plugins.concat('libs.js')
+    .pipe gulp.dest paths.build_scripts
 
 
 gulp.task 'scripts', ->
@@ -59,9 +62,16 @@ gulp.task 'copy', ->
 gulp.task 'inject', ->
   gulp.src('src/index.html')
     .pipe plugins.plumber()
-    .pipe plugins.inject(gulp.src(paths.ext), addRootSlash: false, ignorePath: 'build/', name: 'libs')
-    .pipe plugins.inject(gulp.src(paths.scripts), addRootSlash: false, ignorePath: 'build/')
-    .pipe gulp.dest("build")
+    .pipe plugins.inject(gulp.src(paths.scripts),
+      addRootSlash: false
+      ignorePath: 'build/'
+    )
+    .pipe plugins.inject(gulp.src('build/scripts/libs.js'),
+      name: 'libs'
+      addRootSlash: false,
+      ignorePath: 'build/'
+    )
+    .pipe gulp.dest paths.build
 
 
 gulp.task 'watch', ->
@@ -71,15 +81,14 @@ gulp.task 'watch', ->
   gulp.watch ['src/**/*.html'], ['copy']
 
 
-gulp.task 'default', ['build']
+gulp.task 'default', ['build', 'watch']
 
 
 gulp.task 'build',
   plugins.sequence(
     'clean'
     'bower'
-    'ext'
+    'libs'
     ['scripts', 'styles', 'copy']
     'inject'
-    'watch'
   )
