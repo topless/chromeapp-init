@@ -4,13 +4,5 @@
   "dependencies": {
     "bootstrap": "~3",
     "font-awesome": "~4"
-  },
-  "overrides": {
-    "bootstrap": {
-      "main": ["less/**", "js/*"]
-    },
-    "font-awesome": {
-      "main": ["less/*", "fonts/*"]
-    }
   }
 }
