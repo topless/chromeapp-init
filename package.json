@@ -1,6 +1,6 @@
 {
   "name": "chrapp-init",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "dependencies": {
     "coffee-script": "~1"

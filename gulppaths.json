@@ -6,7 +6,6 @@
   "build_scripts": "build/scripts",
   "build_styles": "build/styles",
   "bower_comp": [
-    "bower_components/jquery/dist/jquery.js"
   ],
   "scripts": [
     "build/scripts/app/app.js"

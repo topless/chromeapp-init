@@ -1,7 +1,7 @@
 {
   "name": "Chrapp Init",
   "description": "Bootstrap code for Chrome App",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "manifest_version": 2,
   "default_locale": "en",
   "permissions": [],
