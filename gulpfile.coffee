@@ -1,22 +1,7 @@
+paths = require './gulppaths.json'
 gulp = require 'gulp'
 plugins = require('gulp-load-plugins')()
 del = require 'del'
-
-BC = 'bower_components'
-
-paths =
-  styles: 'src/styles/style.less'
-  images: 'src/images/*'
-  fonts: "#{BC}/font-awesome/fonts/*"
-  build: 'build'
-  build_scripts: 'build/scripts'
-  build_styles: 'build/styles'
-  bower_comp: [
-    "#{BC}/jquery/dist/jquery.js"
-  ]
-  scripts: [
-    'build/scripts/app/app.js'
-  ]
 
 
 gulp.task 'clean', -> del paths.build
@@ -63,6 +48,7 @@ gulp.task 'inject', ->
   gulp.src('src/index.html')
     .pipe plugins.plumber()
     .pipe plugins.inject(gulp.src(paths.scripts),
+      name: 'scripts'
       addRootSlash: false
       ignorePath: 'build/'
     )
