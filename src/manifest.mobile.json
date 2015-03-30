@@ -1,5 +1,5 @@
 {
-  "packageId": "com.pro.topless.ChrappInit",
+  "packageId": "com.pro.topless.MobileInit",
   // Android-only overrides here (e.g. icons, name, version)
   "android": {
   },

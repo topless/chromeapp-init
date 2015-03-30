@@ -1,3 +1,6 @@
+# TODO: Bump up version in manifest.
+# TODO: Build .crx chrome-app and .apk android
+
 paths = require './paths.json'
 gulp = require 'gulp'
 del = require 'del'
@@ -52,7 +55,3 @@ gulp.task 'injectMin', ->
       ignorePath: 'build/'
     )
     .pipe gulp.dest paths.build
-
-# TODO: Compress scripts.
-# TODO: Bump up version in manifest.
-# TODO: Build .crx chrome-app and .apk android
