@@ -1,4 +1,4 @@
-paths = require './gulppaths.json'
+paths = require './paths.json'
 gulp = require 'gulp'
 del = require 'del'
 plugins = require('gulp-load-plugins')(

@@ -1,3 +1,3 @@
 require('coffee-script/register')
-require('./gulpfile.coffee')
-require('./gulpfilerel.coffee')
+requireDir = require('require-dir')
+requireDir('./tasks')

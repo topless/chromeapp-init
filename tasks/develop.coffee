@@ -1,5 +1,6 @@
-paths = require './gulppaths.json'
+paths = require './paths.json'
 gulp = require 'gulp'
+merge = require 'merge-stream'
 plugins = require('gulp-load-plugins')(
   rename:
     'gulp-ng-classify': 'ngClassify'
@@ -49,17 +50,16 @@ gulp.task 'templates', ->
     .pipe plugins.livereload()
 
 
-# TODO: Merge streams
 gulp.task 'copy', ->
-  gulp.src('src/_locales/**').pipe gulp.dest 'build/_locales'
-  gulp.src(paths.images).pipe gulp.dest 'build/images'
-  gulp.src(paths.fonts).pipe gulp.dest 'build/fonts'
-  gulp.src('src/manifest.json').pipe gulp.dest 'build'
-  gulp.src('src/index.html').pipe gulp.dest 'build'
-    .pipe plugins.livereload()
+  locale = gulp.src('src/_locales/**').pipe gulp.dest 'build/_locales'
+  images = gulp.src(paths.images).pipe gulp.dest 'build/images'
+  fonts = gulp.src(paths.fonts).pipe gulp.dest 'build/fonts'
+  manifest = gulp.src('src/manifest.json').pipe gulp.dest 'build'
+
+  merge(locale, images, fonts, manifest)
 
 
-gulp.task 'inject', ->
+gulp.task 'index', ->
   gulp.src('src/index.html')
     .pipe plugins.plumber()
     .pipe plugins.inject(gulp.src(['build/scripts/app/**/*.js']).pipe(plugins.ngFileSort()),
@@ -73,15 +73,15 @@ gulp.task 'inject', ->
       ignorePath: 'build/'
     )
     .pipe gulp.dest paths.build
+    .pipe plugins.livereload()
 
 
 gulp.task 'watch', ->
   plugins.livereload.listen()
   gulp.watch ['src/styles/**/*.less'], ['styles']
   gulp.watch ['src/scripts/**/*.coffee'], ['scripts']
-  gulp.watch ['src/index.html'], ['copy']
-  gulp.watch ['src/**/*.html'], ['templates']
-
+  gulp.watch ['src/scripts/app/**/*.html'], ['templates']
+  gulp.watch ['src/index.html'], ['index']
 
 gulp.task 'default', ['build', 'watch']
 
@@ -92,5 +92,5 @@ gulp.task 'build',
     'bower'
     'libs'
     ['scripts', 'styles', 'templates','copy']
-    'inject'
+    'index'
   )
