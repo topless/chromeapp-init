@@ -4,6 +4,7 @@ del = require 'del'
 plugins = require('gulp-load-plugins')(
   rename:
     'gulp-minify-css': 'mincss'
+    'gulp-angular-filesort': 'ngFileSort'
 )
 
 
@@ -26,7 +27,8 @@ gulp.task 'minStyles', ->
 
 
 gulp.task 'concatSource', ->
-  gulp.src paths.scripts
+  gulp.src(['build/scripts/app/**/*.js'])
+    .pipe plugins.ngFileSort()
     .pipe plugins.concat('app.js')
     .pipe gulp.dest paths.build_scripts
 

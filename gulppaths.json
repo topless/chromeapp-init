@@ -5,9 +5,12 @@
   "build": "build",
   "build_scripts": "build/scripts",
   "build_styles": "build/styles",
+  "templates": "src/scripts/app/**/*.html",
   "bower_comp": [
-  ],
-  "scripts": [
-    "build/scripts/app/app.js"
+    "bower_components/angular/angular.js",
+    "bower_components/angular-route/angular-route.js",
+    "bower_components/angular-aria/angular-aria.js",
+    "bower_components/angular-animate/angular-animate.js",
+    "bower_components/angular-material/angular-material.js"
   ]
 }

@@ -2,6 +2,9 @@
   "name": "chrapp-init",
   "version": "0.0.1",
   "dependencies": {
+    "angular": "~1",
+    "angular-route": "~1",    
+    "angular-material": "~0",
     "font-awesome": "~4"
   }
 }

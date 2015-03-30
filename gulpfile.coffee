@@ -1,6 +1,11 @@
 paths = require './gulppaths.json'
 gulp = require 'gulp'
-plugins = require('gulp-load-plugins')()
+plugins = require('gulp-load-plugins')(
+  rename:
+    'gulp-ng-classify': 'ngClassify'
+    'gulp-angular-templatecache': 'ngTemplates'
+    'gulp-angular-filesort': 'ngFileSort'
+)
 del = require 'del'
 
 
@@ -20,6 +25,7 @@ gulp.task 'scripts', ->
   gulp.src('src/scripts/**/*.coffee')
     .pipe plugins.plumber()
     .pipe plugins.sourcemaps.init()
+    .pipe plugins.ngClassify()
     .pipe plugins.coffee()
     .pipe plugins.sourcemaps.write()
     .pipe gulp.dest paths.build_scripts
@@ -34,6 +40,15 @@ gulp.task 'styles', ->
     .pipe plugins.livereload()
 
 
+gulp.task 'templates', ->
+  # Default file build/app/templates.js
+  gulp.src(paths.templates)
+    .pipe plugins.plumber()
+    .pipe plugins.ngTemplates(module: 'app')
+    .pipe gulp.dest('build/scripts/app')
+    .pipe plugins.livereload()
+
+
 # TODO: Merge streams
 gulp.task 'copy', ->
   gulp.src('src/_locales/**').pipe gulp.dest 'build/_locales'
@@ -41,13 +56,13 @@ gulp.task 'copy', ->
   gulp.src(paths.fonts).pipe gulp.dest 'build/fonts'
   gulp.src('src/manifest.json').pipe gulp.dest 'build'
   gulp.src('src/index.html').pipe gulp.dest 'build'
-  .pipe plugins.livereload()
+    .pipe plugins.livereload()
 
 
 gulp.task 'inject', ->
   gulp.src('src/index.html')
     .pipe plugins.plumber()
-    .pipe plugins.inject(gulp.src(paths.scripts),
+    .pipe plugins.inject(gulp.src(['build/scripts/app/**/*.js']).pipe(plugins.ngFileSort()),
       name: 'scripts'
       addRootSlash: false
       ignorePath: 'build/'
@@ -64,7 +79,8 @@ gulp.task 'watch', ->
   plugins.livereload.listen()
   gulp.watch ['src/styles/**/*.less'], ['styles']
   gulp.watch ['src/scripts/**/*.coffee'], ['scripts']
-  gulp.watch ['src/**/*.html'], ['copy']
+  gulp.watch ['src/index.html'], ['copy']
+  gulp.watch ['src/**/*.html'], ['templates']
 
 
 gulp.task 'default', ['build', 'watch']
@@ -75,6 +91,6 @@ gulp.task 'build',
     'clean'
     'bower'
     'libs'
-    ['scripts', 'styles', 'copy']
+    ['scripts', 'styles', 'templates','copy']
     'inject'
   )
