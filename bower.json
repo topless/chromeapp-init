@@ -1,7 +1,8 @@
 {
-  "name": "chrapp-init",
+  "name": "happies",
   "version": "0.0.1",
   "dependencies": {
-    "font-awesome": "~4"
+    "font-awesome": "~4",
+    "hammerjs": "~2.0.4"
   }
 }

@@ -1,4 +1,4 @@
-# chrapp-init
+# happies
 Bootstrap setup for building chrome apps, for Desktop and Mobile.
 
 ## Dependencies
@@ -14,7 +14,7 @@ cca checkenv
 
 ## Desktop
 ```
-git clone https://github.com/topless/chrapp-init.git
+git clone https://github.com/topless/happies.git
 gulp
 ```
 Visit [chrome://extensions](chrome://extensions) in your google chrome.
